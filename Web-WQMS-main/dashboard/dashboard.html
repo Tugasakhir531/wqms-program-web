@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard</title>
+  <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous" />
+  <link rel="stylesheet" href="dashboard.css" />
+</head>
+
+<body>
+  <div class="wrapper">
+    <aside id="sidebar">
+      <div class="d-flex">
+        <button class="toggle-btn" type="button">
+          <i class="lni lni-menu"></i>
+        </button>
+        <div class="sidebar-logo">
+          <a href="#">Internet of Things</a>
+        </div>
+      </div>
+      <ul class="sidebar-nav">
+        <li class="sidebar-item">
+          <a href="#" class="sidebar-link active">
+            <i class="lni lni-dashboard"></i>
+            <span class="dash">Dashboard</span>
+          </a>
+        </li>
+        <li class="sidebar-item">
+          <a href="../grafik/grafik.html" class="sidebar-link">
+            <i class="lni lni-display"></i>
+            <span>Grafik</span>
+          </a>
+        </li>
+      </ul>
+      <div class="sidebar-footer">
+        <a href="../index.html" class="sidebar-link">
+          <i class="lni lni-exit"></i>
+          <span>Logout</span>
+        </a>
+      </div>
+    </aside>
+    <div class="main p-3">
+      <h1 class="text-center">Monitoring Kualitas Air Tanah</h1>
+      <div class="container">
+        <div class="item suhu" id="suhu">
+          <h2>Suhu</h2>
+          <div class="box m-1">
+            <p id="temp">25</p>
+            <!-- <img src="temperature.svg" alt="" /> -->
+          </div>
+        </div>
+        <div class="item ph" id="ph">
+          <h2>Ph</h2>
+          <div class="box m-1">
+            <p id="phVal">7</p>
+            <!-- <img src="water.svg" alt="" /> -->
+          </div>
+        </div>
+        <div class="item tds" id="tds">
+          <h2>TDS</h2>
+          <div class="box m-1">
+            <p id="tdsVal">500 PPM</p>
+          </div>
+        </div>
+        <div class="item kekeruhan" id="kekeruhan">
+          <h2>Kekeruhan</h2>
+          <div class="box m-1">
+            <p id="kekeruhanVal">15</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+    crossorigin="anonymous"></script>
+
+  <script src="dashboard.js" type="module"></script>
+
+  <!-- <script>
+      let data = document.getElementById("temp");
+      data.textContent = "100";
+    </script> -->
+
+  <!-- the scripts for products you want to access must be added-->
+
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+
+  <!-- <script type="module">
+    // Import the functions you need from the SDKs you need
+
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.20.0/firebase-app.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration here (Do not use the existing configuration)
+    const firebaseConfig = {
+      apiKey: "AIzaSyDMvshvjpAT2Di9qMOe1lc1iVCP1Q--fgM",
+      authDomain: "wqms-81d27.firebaseapp.com",
+      databaseURL: "https://wqms-81d27-default-rtdb.firebaseio.com",
+      projectId: "wqms-81d27",
+      storageBucket: "wqms-81d27.appspot.com",
+      messagingSenderId: "49969250289",
+      appId: "1:49969250289:web:b490ce775fb2435dbe4e50",
+    };
+
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    // getting reference to the database
+    const database = firebase.database();
+
+    //getting reference to the data we want
+    const dataSuhu = database.ref("WQMS/suhu");
+    const dataPh = database.ref("WQMS/ph");
+    const dataKekeruhan = database.ref("WQMS/kekeruhan");
+    const dataTds = database.ref("WQMS/tds");
+
+    //fetch the data
+    dataSuhu.on("value", function (getdata) {
+      const suhuVal = getdata.val();
+
+
+      document.getElementById("temp").innerHTML = suhuVal + "&#8451;";
+      // console.log(suhuVal)
+      const bgSuhu = document.getElementById('suhu')
+      if (suhuVal < 0) {
+        console.log(bgSuhu);
+        bgSuhu.style.backgroundColor = "#fd3d60"
+      }
+      else {
+
+      }
+
+    });
+
+
+    dataPh.on("value", function (getdata1) {
+      // const phVal = getdata1.val();
+      // const phVal = 11;
+      document.getElementById("phVal").innerHTML = phVal;
+
+      const bgPh = document.getElementById('ph')
+      if (phVal < 3) {
+        bgPh.style.backgroundColor = 'red'
+      }
+      else if (phVal > 3 && phVal < 6) {
+        bgPh.style.backgroundColor = 'orange'
+
+      }
+      else if (phVal > 6 && phVal < 8) {
+        bgPh.style.backgroundColor = 'green'
+
+      }
+      else if (phVal > 8 && phVal < 10) {
+        bgPh.style.backgroundColor = 'blue'
+
+      } else {
+        bgPh.style.backgroundColor = 'indigo'
+
+      }
+    });
+
+    dataTds.on("value", function (getdata1) {
+      const tdsVal = getdata1.val();
+      document.getElementById("tdsVal").innerHTML = tdsVal + " PPM";
+
+      // const bgTds = document.getElementById(tds)
+
+    });
+
+    dataKekeruhan.on("value", function (getdata1) {
+      const kekeruhanVal = getdata1.val();
+      document.getElementById("kekeruhanVal").innerHTML = kekeruhanVal + " NTU";
+
+      // const bgKekeruhan = document.getElementById('kekeruhan');
+
+
+    });
+
+
+  </script> -->
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        #container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        .item {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+            width: 300px;
+            background-color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container">
+        <div class="item " id="suhu">
+
+            <div class="suhu" id="temp">
+                25
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <script>
+
+        // let x = document.querySelector(".temp").value;
+
+        // console.log(x);
+
+        let temp = document.querySelector('.suhu').value;
+
+        console.log(temp);
+
+        const bgSuhu = document.getElementById('suhu')
+
+        bgSuhu.style.backgroundColor = 'blue';
+    </script>
+
+</body>
+
+</html>

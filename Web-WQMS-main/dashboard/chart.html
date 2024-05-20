@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chart</title>
+</head>
+
+<body>
+  <canvas id="lineChartSuhu"></canvas>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.20.0/firebase-app.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDMvshvjpAT2Di9qMOe1lc1iVCP1Q--fgM",
+      authDomain: "wqms-81d27.firebaseapp.com",
+      databaseURL: "https://wqms-81d27-default-rtdb.firebaseio.com",
+      projectId: "wqms-81d27",
+      storageBucket: "wqms-81d27.appspot.com",
+      messagingSenderId: "49969250289",
+      appId: "1:49969250289:web:b490ce775fb2435dbe4e50",
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    // getting reference to the database
+    const database = firebase.database();
+
+    //getting reference to the data we want
+    const dataSuhu = database.ref("WQMS/suhu");
+    const dataPh = database.ref("WQMS/ph");
+    const dataKekeruhan = database.ref("WQMS/turbidity");
+    const dataTds = database.ref("WQMS/tds");
+
+    // console.log(dataSuhu);
+
+    // let suhu = 25;
+
+    let suhu;
+    //fetch the data
+    dataSuhu.on("value", function (getdata1) {
+      suhu = getdata1.val();
+      // document.getElementById("temp").innerHTML = suhu + "&#8451;";
+      console.log(suhu);
+    });
+
+    var data1 = {
+      labels: [0],
+      datasets: [
+        {
+          label: "Suhu",
+          data: [0],
+          borderColor: "rgb(253, 61, 96)",
+          lineTension: 0.5,
+          backgroundColor: "#FD3D60",
+        },
+      ],
+    };
+
+    var config1 = {
+      type: "line",
+      data: data1,
+      options: {
+        scales: {
+          y: {
+            max: 100,
+            min: 0,
+          },
+        },
+      },
+    };
+
+    var myChart = new Chart(
+      document.getElementById("lineChartSuhu"),
+      config1
+    );
+
+    window.setInterval(myCallback, 2000);
+
+    //   now = now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds();
+
+    function myCallback() {
+      const d = new Date();
+      const hours = d.getHours();
+      const minutes = d.getMinutes();
+      const seconds = d.getSeconds();
+      const now = `${hours}:${minutes}:${seconds}`;
+      if (data1.datasets[0].data.length >= 10) {
+        data1.labels.shift();
+        data1.datasets[0].data.shift();
+      }
+      data1.labels.push(now);
+      data1.datasets[0].data.push(suhu);
+
+      myChart.update();
+    }
+  </script>
+</body>
+
+</html>
